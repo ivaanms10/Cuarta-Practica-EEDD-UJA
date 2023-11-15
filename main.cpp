@@ -15,7 +15,7 @@ int main(int argc, const char * argv[]) {
     clock_t t_ini1 = clock();
 
     VuelaFlight vuelaFlight(archivo_aeropuertos, archivo_aerolineas, archivo_rutas, archivo_vuelos);
-    Aerolinea *baw = vuelaFlight.buscaAerolinea("BAW");
+
     std::cout << "El tiempo que tarda en cargar todos los aeropuertos, aerolineas, rutas  y vuelos es: "
               << ((clock() - t_ini1) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
 
@@ -81,9 +81,8 @@ int main(int argc, const char * argv[]) {
         std::cout << std::endl << "ERROR: " << e.what() << std::endl;
     }
 
-    std::cout
-            << "Tiempo que tarda en mostrar la informacion de la aerolinea y el tiempo que hacia en los vuelos 'AEA5201' es: "
-            << ((clock() - t_ini2) / (float) CLOCKS_PER_SEC) << " segs" << std::endl;
+    std::cout << "Tiempo que tarda en mostrar la informacion de la aerolinea y el tiempo que hacia en los vuelos 'AEA5201' es: "
+              << ((clock() - t_ini2) / (float) CLOCKS_PER_SEC) << " segs" << std::endl;
 
     clock_t t_ini3 = clock();
 
@@ -142,8 +141,8 @@ int main(int argc, const char * argv[]) {
         std::cout << std::endl << "ERROR: " << e.what() << std::endl;
     }
 
-    std::cout<< "Tiempo que tarda en mostrar la informacion de la aerolinea y el tiempo que hacia en los vuelos 'VLG2021' es: "
-             << ((clock() - t_ini2) / (float) CLOCKS_PER_SEC) << " segs" << std::endl;
+    std::cout << "Tiempo que tarda en mostrar la informacion de la aerolinea y el tiempo que hacia en los vuelos 'VLG2021' es: "
+              << ((clock() - t_ini2) / (float) CLOCKS_PER_SEC) << " segs" << std::endl;
 
 //3.-Mostrar los modelos de aviones (únicos) utilizados en vuelos operados por Vueling, VLG, el 13/4/2018
     clock_t t_ini4 = clock();
@@ -178,33 +177,35 @@ int main(int argc, const char * argv[]) {
         std::cout << std::endl << "ERROR: " << e.what() << std::endl;
     }
 
-    std::cout<< "Tiempo que tarda en mostrar los modelos de avion de la aerolinea Vueling(VLG) en una fecha concreta es: "
-             << ((clock() - t_ini4) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
+    std::cout << "Tiempo que tarda en mostrar los modelos de avion de la aerolinea Vueling(VLG) en una fecha concreta es: "
+              << ((clock() - t_ini4) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
 
 //4.- Mostrar identificadores de vuelo (únicos) con destino a Londres (LHR, STN, LTN,LGW) desde
 // cualquier aeropuerto español.
     clock_t t_ini5 = clock();
 
-    std::vector<std::string> aeropuertos_Londres = {"LHR","STN","LTN","LGW"};
-    for(int i=0;i<aeropuertos_Londres.size();i++){
+    std::vector<std::string> aeropuertos_Londres = {"LHR", "STN", "LTN", "LGW"};
+    for (int i = 0; i < aeropuertos_Londres.size(); i++) {
         std::set<std::string> vuelos_ESP_LON;
-        vuelos_ESP_LON = vuelaFlight.buscaVuelosDestAerop("ES",aeropuertos_Londres[i]);
+        vuelos_ESP_LON = vuelaFlight.buscaVuelosDestAerop("ES", aeropuertos_Londres[i]);
 
-        if(vuelos_ESP_LON.empty()){
-            std::cout<<std::endl<<"No hay ningun vuelo entre todos los aeropuertos de Espania y el aeropuerto con el codigo '"<<aeropuertos_Londres[i]<<std::endl;
-        }else {
+        if (vuelos_ESP_LON.empty()) {
+            std::cout << std::endl
+                      << "No hay ningun vuelo entre todos los aeropuertos de Espania y el aeropuerto con el codigo '"
+                      << aeropuertos_Londres[i] << std::endl;
+        } else {
             std::set<std::string>::iterator Ite; Ite = vuelos_ESP_LON.begin();
 
             std::cout << std::endl << "El numero de vuelos que hay desde un aeropuerto de Espania a el aeropuerto '"
                       << aeropuertos_Londres[i] << "' es: " << vuelos_ESP_LON.size() << std::endl;
             for (int j = 0; j < vuelos_ESP_LON.size(); j++) {
-                std::cout << j + 1 << " numero de vuelo: " << (*Ite)<< std::endl;
+                std::cout << j + 1 << " numero de vuelo: " << (*Ite) << std::endl;
                 Ite++;
             }
         }
     }
 
-    std::cout<< "Tiempo que tarda en mostrar los modelos de avion de la aerolinea Vueling(VLG) en una fecha concreta es: "
-             << ((clock() - t_ini4) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
+    std::cout << "Tiempo que tarda en mostrar los numeros de vuelos que hay desde Espania a los 4 aeropuertos de Londres es: "
+              << ((clock() - t_ini4) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
 
 }
