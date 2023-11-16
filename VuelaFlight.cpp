@@ -216,27 +216,27 @@ std::set<std::string> VuelaFlight::buscaVuelosDestAerop(std::string paisOrig, st
         throw std::out_of_range ("[VuelaFlight::buscaVuelosDestAerop] : El pais especificado no contiene ningun aeropuerto.");
     }
 
-    for (int i = 0; i < aeropuertos_pais.size(); i++) {
+    for (int i = 0; i < aeropuertos_pais.size(); ++i) {
         std::deque<Ruta*> rutas_aeropuerto_orig = buscarRutasOrigen(aeropuertos_pais[i]->getIata());
         if (!rutas_aeropuerto_orig.empty()) {
 
             std::deque<Ruta*> rutas_aerpais_aerdest;
-            for (int z = 0; z < rutas_aeropuerto_orig.size(); z++) {
-                if (rutas_aeropuerto_orig[z]->getDestination()->getIata() == iataAeroDest) {
-                    rutas_aerpais_aerdest.push_back(rutas_aeropuerto_orig[z]);
+            for (int j = 0; j < rutas_aeropuerto_orig.size(); ++j) {
+                if (rutas_aeropuerto_orig[j]->getDestination()->getIata() == iataAeroDest) {
+                    rutas_aerpais_aerdest.push_back(rutas_aeropuerto_orig[j]);
                 }
             }
 
             if (!rutas_aerpais_aerdest.empty()) {
 
-                for (int j = 0; j < rutas_aerpais_aerdest.size(); j++) {
+                for (int j = 0; j < rutas_aerpais_aerdest.size(); ++j) {
                     std::list<Vuelo*> vuelos_ruta = rutas_aerpais_aerdest[j]->getVuelos();
                     if (!vuelos_ruta.empty()) {
 
                         std::list<Vuelo*>::iterator Ite; Ite = vuelos_ruta.begin();
-                        for (int z = 0; z < vuelos_ruta.size(); z++) {
+                        for (int z = 0; z < vuelos_ruta.size(); ++z) {
                             flightNumbers.insert((*Ite)->getFlightNumb());
-                            Ite++;
+                            ++Ite;
                         }
 
                     }
