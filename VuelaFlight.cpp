@@ -53,13 +53,13 @@ VuelaFlight::~VuelaFlight() {
 Ruta* VuelaFlight::buscarRutasOriDes(std::string idAerOrig, std::string idAerDest) {
     std::list<Ruta>::iterator Ite; Ite = routes.begin();
 
-    for (int i = 0; i < routes.size(); i++) {
+    for (int i = 0; i < routes.size(); ++i) {
         if (idAerOrig == Ite->getOrigin()->getIata()) {
             if (idAerDest == Ite->getDestination()->getIata()) {
                 return &(*Ite);
             }
         }
-        Ite++;
+        ++Ite;
     }
     return nullptr;
 }
@@ -77,7 +77,7 @@ std::deque<Ruta*> VuelaFlight::buscarRutasOrigen(std::string idAerOrig) {
         if (idAerOrig == Ite->getOrigin()->getIata()) {
             Rutas_Origen.push_back(&(*Ite));
         }
-        Ite++;
+        ++Ite;
     }
     return Rutas_Origen;
 }
@@ -85,7 +85,7 @@ std::deque<Ruta*> VuelaFlight::buscarRutasOrigen(std::string idAerOrig) {
 /**
  * @brief Metodo para obtener todos los aeropuertos de un pais especifico.
  * @param pais Nombre del pais del que se quiere conocer los aeropuertos.
- * @return Un vector std::deque de punteros a objetos de tipo Aeropuerto que coincide con el pais especificado anteriormente.
+ * @return Un vector std::deque de punteros a objetos de tipo Aeropuerto que coinciden con el pais especificado anteriormente.
  */
 std::deque<Aeropuerto*> VuelaFlight::buscarAeropuertoPais(std::string pais) {
     std::deque<Aeropuerto*> Aeropuertos_pais;
@@ -117,18 +117,18 @@ std::deque<Aeropuerto*> VuelaFlight::buscarAeropuertoPais(std::string pais) {
 }
 
 /**
- * @brief Método que encuentra todas las aerolineas que estan activas actualmente.
- * @return Vector dinámico de punteros a las aerolineas activas.
+ * @brief Método que obtiene todas las aerolineas que estan activas actualmente.
+ * @return Una lista std::list de punteros a objetos de tipo Aerolinea las cuales se encuentran activas.
  */
 std::list<Aerolinea*> VuelaFlight::buscaAerolineaActiva() {
     std::list<Aerolinea*> aerolineas_activas;
     std::map<std::string, Aerolinea>::iterator Ite; Ite = airlines.begin();
 
-    for (int i = 0; i < airlines.size(); i++) {
+    for (int i = 0; i < airlines.size(); ++i) {
         if (Ite->second.isActivo()) {
             aerolineas_activas.push_back(&(Ite->second));
         }
-        Ite++;
+        ++Ite;
     }
     return aerolineas_activas;
 }
@@ -136,7 +136,8 @@ std::list<Aerolinea*> VuelaFlight::buscaAerolineaActiva() {
 /**
  * @brief Método que obtiene todas las aerolineas que operan en un país especifico.
  * @param idPais Nombre del país del que se desea obtener las aerolineas.
- * @return Vector dinamico de punteros a las aerolineas que operan en ese país.
+ * @throw std::out_of_range Si no hay ninguna Aerolinea que opera en el pais especificado anteriormente.
+ * @return Una lista std::list de punteros a objetos de tipo Aerolinea que coinciden con el pais especificado anteriormente.
  */
 std::list<Aerolinea*> VuelaFlight::getAerolineasPais(std::string idPais) {
     std::list<Aerolinea*> aerolineas_pais;
@@ -146,10 +147,11 @@ std::list<Aerolinea*> VuelaFlight::getAerolineasPais(std::string idPais) {
         if (Ite->second.getPais() == idPais) {
             aerolineas_pais.push_back(&Ite->second);
         }
-        Ite++;
+        ++Ite;
     }
+
     if (aerolineas_pais.empty()) {
-        throw std::out_of_range("[VuelaFlight::getAerolineasPais]: El pais que ha pasado por parametro no existe.");
+        throw std::out_of_range("[VuelaFlight::getAerolineasPais]: No hay ninguna aerolinea operando actualmente en el pais especificado anteriormente.");
     } else {
         return aerolineas_pais;
     }
@@ -159,20 +161,20 @@ std::list<Aerolinea*> VuelaFlight::getAerolineasPais(std::string idPais) {
 //Práctica 4.
 
 /**
- * @brief Método que busca los vuelos que tienen el flightNumber proporcionado.
+ * @brief Método que busca todos los vuelos que tienen el flightNumber especificado.
  * @param fNumber Número de el vuelo que se desea buscar.
- * @return Un vector deque de punteros a vuelos que coinciden con el número de vuelo proporcionado.
+ * @throw std::out_of_range Si la aerolinea con el ICAO obtenido del flightNumber no ha sido encontrada correctamente.
+ * @return Un vector std::deque de punteros a Vuelos que coinciden con el número de vuelo proporcionado.
  */
 std::deque<Vuelo*> VuelaFlight::buscaVuelos(std::string fNumber) {
     std::string ICAO = ""; ICAO = ICAO + fNumber[0] + fNumber[1] + fNumber[2];
 
     Aerolinea *aerolinea = buscaAerolinea(ICAO);
     if (aerolinea == nullptr) {
-        throw std::out_of_range("[VuelaFlight::buscaVuelos] : La aerolinea no se ha encontrado, por tanto no hay ningun vuelo.");
+        throw std::out_of_range("[VuelaFlight::buscaVuelos] : La aerolinea proporcionada no ha sido encontrada.");
     }
 
-    std::deque<Vuelo*> vuelos_identificador;
-    vuelos_identificador = aerolinea->getVuelos(fNumber);
+    std::deque<Vuelo*> vuelos_identificador = aerolinea->getVuelos(fNumber);
     return vuelos_identificador;
 }
 
@@ -180,6 +182,7 @@ std::deque<Vuelo*> VuelaFlight::buscaVuelos(std::string fNumber) {
  * @brief Método que obtiene los vuelos operados por una aerolínea en una fecha específica.
  * @param icaoAerolinea Código ICAO de la aerolinea que se desea buscar.
  * @param f Fecha para la cual se buscan los vuelos operados.
+ * @throw std::out_of_range Si la aerolinea con el ICAO especificado anteriormente no ha sido encontrada correctamente.
  * @return Un mapa donde tiene una clave y un puntero al objeto vuelo correspondiente.
  */
 std::list<Vuelo*> VuelaFlight::vuelosOperadosPor(std::string icaoAerolinea, Fecha f) {
@@ -194,10 +197,10 @@ std::list<Vuelo*> VuelaFlight::vuelosOperadosPor(std::string icaoAerolinea, Fech
 
 
 /**
- * @brief Método que busca vuelos hacia un aeropuerto específico desde un país de origen.
+ * @brief Método que busca vuelos hacia un aeropuerto específico desde todos los aeropuertos de un país de origen.
  * @param paisOrig El país de origen de los vuelos a buscar.
  * @param iataAeroDest El código IATA del aeropuerto de destino.
- * @return Un std::set con los flightNumbers de los vuelos que cumplen los requisitos.
+ * @return Un std::set con los flightNumbers de los vuelos que cumplen los requisitos anteriores.
  * @note Primero obtenemos todos los aeropuertos que hay en el pais recibido por la cabecera.
  *       Segundo obtengo todas las rutas donde el aeropuerto de origen es uno de los anteriores.
  *       Tercero obtengo de las rutas anteriores aquellas cuyo aeropuerto de destino es el parametro
@@ -208,6 +211,10 @@ std::list<Vuelo*> VuelaFlight::vuelosOperadosPor(std::string icaoAerolinea, Fech
 std::set<std::string> VuelaFlight::buscaVuelosDestAerop(std::string paisOrig, std::string iataAeroDest) {
     std::set<std::string> flightNumbers;
     std::deque<Aeropuerto*> aeropuertos_pais = buscarAeropuertoPais(paisOrig);
+
+    if(aeropuertos_pais.empty()){
+        throw std::out_of_range ("[VuelaFlight::buscaVuelosDestAerop] : El pais especificado no contiene ningun aeropuerto.");
+    }
 
     for (int i = 0; i < aeropuertos_pais.size(); i++) {
         std::deque<Ruta*> rutas_aeropuerto_orig = buscarRutasOrigen(aeropuertos_pais[i]->getIata());
@@ -295,14 +302,13 @@ void VuelaFlight::addNuevaRuta(std::string idAerOrig, std::string idAerDest, std
     Aerolinea *aerolinea_company = buscaAerolinea(compani);
 
     if (aerolinea_company == nullptr || aeropuerto_origen == nullptr || aeropuerto_destino == nullptr) {
-        throw std::out_of_range(
-                "[VuelaFlight::addNuevaRuta]: No se ha podido insertar la ruta ya que los aeropuertos o la aerolinea no es correcta.");
+        throw std::out_of_range("[VuelaFlight::addNuevaRuta]: No se ha podido insertar la ruta ya que los aeropuertos o la aerolinea no es correcta.");
     }
 
     Ruta ruta1(aerolinea_company, aeropuerto_origen, aeropuerto_destino);
     routes.push_back(ruta1);
 
-    std::list<Ruta>::iterator Ite2; Ite2 = routes.end(); Ite2--;
+    std::list<Ruta>::iterator Ite2; Ite2 = routes.end(); --Ite2;
     aerolinea_company->linkAerolRuta(&(*Ite2));
 }
 

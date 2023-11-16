@@ -3,6 +3,7 @@
 //
 #ifndef CUARTA_PRACTICA_VUELAFLIGHT_H
 #define CUARTA_PRACTICA_VUELAFLIGHT_H
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
