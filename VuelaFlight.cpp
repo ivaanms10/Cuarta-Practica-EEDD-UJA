@@ -122,8 +122,8 @@ std::deque<Aeropuerto*> VuelaFlight::buscarAeropuertoPais(std::string pais) {
  * @brief Método que encuentra todas las aerolineas que estan activas actualmente.
  * @return Vector dinámico de punteros a las aerolineas activas.
  */
-std::deque<Aerolinea*> VuelaFlight::buscaAerolineaActiva() {
-    std::deque<Aerolinea*> aerolineas_activas;
+std::list<Aerolinea*> VuelaFlight::buscaAerolineaActiva() {
+    std::list<Aerolinea*> aerolineas_activas;
     std::map<std::string, Aerolinea>::iterator Ite; Ite = airlines.begin();
 
     for (int i = 0; i < airlines.size(); i++) {
@@ -187,8 +187,7 @@ std::deque<Vuelo*> VuelaFlight::buscaVuelos(std::string fNumber) {
 std::list<Vuelo*> VuelaFlight::vuelosOperadosPor(std::string icaoAerolinea, Fecha f) {
     Aerolinea *aerolinea = buscaAerolinea(icaoAerolinea);
     if (aerolinea == nullptr) {
-        throw std::out_of_range(
-                "[VuelaFlight::vuelosoperadosPor] : La aerolinea que intenta buscar no existe.");
+        throw std::out_of_range("[VuelaFlight::vuelosoperadosPor] : La aerolinea que intenta buscar no existe.");
     }
 
     std::list<Vuelo*> vuelos_fecha = aerolinea->getVuelos(f,f);
@@ -201,38 +200,45 @@ std::list<Vuelo*> VuelaFlight::vuelosOperadosPor(std::string icaoAerolinea, Fech
  * @param paisOrig El país de origen de los vuelos a buscar.
  * @param iataAeroDest El código IATA del aeropuerto de destino.
  * @return Un std::set con los flightNumbers de los vuelos que cumplen los requisitos.
- * @note Primero obtenemos todos los aeropuertos que hay en España. Segundo obtengo todas las rutas donde
- *       el aeropuerto de origen es uno de los anteriores. Tercero obtengo de las rutas anteriores aquellas
- *       cuyo aeropuerto de destino es el parametro iataAeroDest. Cuarto obtengo todos los vuelos de la
- *       ruta cuyo aeropuerto de origen es uno de España y el de destino es el parametro. Quinto se inserta
- *       en el set el flightNumber de los vuelos.
+ * @note Primero obtenemos todos los aeropuertos que hay en el pais recibido por la cabecera.
+ *       Segundo obtengo todas las rutas donde el aeropuerto de origen es uno de los anteriores.
+ *       Tercero obtengo de las rutas anteriores aquellas cuyo aeropuerto de destino es el parametro
+ *       iataAeroDest. Cuarto obtengo todos los vuelos de la ruta cuyo aeropuerto de origen es uno
+ *       de el pais recibido y el de destino es el parametro. Quinto se inserta en el
+ *       set el flightNumber de los vuelos.
  */
 std::set<std::string> VuelaFlight::buscaVuelosDestAerop(std::string paisOrig, std::string iataAeroDest) {
     std::set<std::string> flightNumbers;
-    std::deque<Aeropuerto *> aeropuertos_pais = buscarAeropuertoPais(paisOrig);
+    std::deque<Aeropuerto*> aeropuertos_pais = buscarAeropuertoPais(paisOrig);
 
     for (int i = 0; i < aeropuertos_pais.size(); i++) {
-        std::deque<Ruta *> rutas_aeropuerto_orig = buscarRutasOrigen(aeropuertos_pais[i]->getIata());
+        std::deque<Ruta*> rutas_aeropuerto_orig = buscarRutasOrigen(aeropuertos_pais[i]->getIata());
         if (!rutas_aeropuerto_orig.empty()) {
-            std::deque<Ruta *> rutas_espania_londres;
+
+            std::deque<Ruta*> rutas_aerpais_aerdest;
             for (int z = 0; z < rutas_aeropuerto_orig.size(); z++) {
                 if (rutas_aeropuerto_orig[z]->getDestination()->getIata() == iataAeroDest) {
-                    rutas_espania_londres.push_back(rutas_aeropuerto_orig[z]);
+                    rutas_aerpais_aerdest.push_back(rutas_aeropuerto_orig[z]);
                 }
             }
 
-            if (!rutas_espania_londres.empty()) {
-                for (int j = 0; j < rutas_espania_londres.size(); j++) {
-                    std::list<Vuelo *> vuelos_ruta = rutas_espania_londres[j]->getVuelos();
+            if (!rutas_aerpais_aerdest.empty()) {
+
+                for (int j = 0; j < rutas_aerpais_aerdest.size(); j++) {
+                    std::list<Vuelo*> vuelos_ruta = rutas_aerpais_aerdest[j]->getVuelos();
                     if (!vuelos_ruta.empty()) {
-                        std::list<Vuelo *>::iterator Ite; Ite = vuelos_ruta.begin();
-                        for (int m = 0; m < vuelos_ruta.size(); m++) {
+
+                        std::list<Vuelo*>::iterator Ite; Ite = vuelos_ruta.begin();
+                        for (int z = 0; z < vuelos_ruta.size(); z++) {
                             flightNumbers.insert((*Ite)->getFlightNumb());
                             Ite++;
                         }
+
                     }
                 }
+
             }
+
         }
     }
     return flightNumbers;

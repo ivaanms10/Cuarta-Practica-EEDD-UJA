@@ -38,7 +38,7 @@ public:
 
     //Práctica 3.
     Aerolinea* buscaAerolinea(std::string icaoAerolinea);
-    std::deque<Aerolinea*> buscaAerolineaActiva();
+    std::list<Aerolinea*> buscaAerolineaActiva();
     std::list<Aerolinea*> getAerolineasPais(std::string idPais);
 
     //Práctica 4.
