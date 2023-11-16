@@ -17,8 +17,8 @@ int main(int argc, const char * argv[]) {
     while (valor_menu != 3) {
         valor_menu = 0;
         std::cout << "                              MENU                      " << std::endl;
-        std::cout << "1.- PROGRAMA DE PRUEBA I: probar la lista enlazada con enteros." << std::endl;
-        std::cout << "2.- PROGRAMA DE PRUEBA II: probar la funcionalidad de VuelaFlight." << std::endl;
+        std::cout << "1.- PROGRAMA DE PRUEBA I: probar la funcionalidad de la practica 3 en STL." << std::endl;
+        std::cout << "2.- PROGRAMA DE PRUEBA II: probar la funcionalidad de la practica 4 en STL." << std::endl;
         std::cout << "3.- EXIT" << std::endl;
         while (valor_menu == 0 || valor_menu > 3 || valor_menu < 0) {
             std::cout << "Inserte un numero: ";
