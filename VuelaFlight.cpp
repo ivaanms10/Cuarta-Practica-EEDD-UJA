@@ -48,8 +48,7 @@ VuelaFlight::~VuelaFlight() {
  * @brief Metodo para buscar una ruta con un aeropuerto de origen y destino específicos.
  * @param idAerOrig Identificador del aeropuerto de origen que se desea buscar.
  * @param idAerDest Identificador del aeropuerto de destino que se desea buscar.
- * @throw std::out_of_range Si no se ha encontrado ninguna ruta con el aeropuerto de origen y destino.
- * @return Una referencia a la ruta que coincide con los aeropuertos de origen y destino.
+ * @return Un puntero a la ruta que coincide con los aeropuertos de origen y destino.
  */
 Ruta* VuelaFlight::buscarRutasOriDes(std::string idAerOrig, std::string idAerDest) {
     std::list<Ruta>::iterator Ite; Ite = routes.begin();
@@ -66,9 +65,9 @@ Ruta* VuelaFlight::buscarRutasOriDes(std::string idAerOrig, std::string idAerDes
 }
 
 /**
- *@brief Metodo para buscar todas las rutas con un origen especifico.
+ *@brief Metodo para buscar todas las rutas con un aeropuerto de origen especifico.
  * @param idAerOrig Identificador del aeropuerto de origen que se desea buscar.
- * @return Una lista de punteros a objetos de tipo Ruta que coincide con el aeropuerto de origen.
+ * @return Una vector std::deque de punteros a objetos de tipo Ruta que coincide con el aeropuerto de origen.
  */
 std::deque<Ruta*> VuelaFlight::buscarRutasOrigen(std::string idAerOrig) {
     std::list<Ruta>::iterator Ite; Ite = routes.begin();
@@ -84,9 +83,9 @@ std::deque<Ruta*> VuelaFlight::buscarRutasOrigen(std::string idAerOrig) {
 }
 
 /**
- * @brief Metodo para conocer todos los aeropuertos de un pais.
+ * @brief Metodo para obtener todos los aeropuertos de un pais especifico.
  * @param pais Nombre del pais del que se quiere conocer los aeropuertos.
- * @return Referencia al vector de paises cuyo nombre de pais coincide con el buscado.
+ * @return Un vector std::deque de punteros a objetos de tipo Aeropuerto que coincide con el pais especificado anteriormente.
  */
 std::deque<Aeropuerto*> VuelaFlight::buscarAeropuertoPais(std::string pais) {
     std::deque<Aeropuerto*> Aeropuertos_pais;
@@ -105,11 +104,10 @@ std::deque<Aeropuerto*> VuelaFlight::buscarAeropuertoPais(std::string pais) {
 /**
  * @brief Método para buscar una aerolinea por su codigo ICAO.
  * @param icaoAerolinea Código ICAO de la aerolinea que se desea buscar.
- * @return Una referencia a la aerolínea encontrada, si no se ha encontrado se devuelve una referencia nula.
+ * @return Una puntero a la aerolínea encontrada, si no se ha encontrado la aerolinea se devuelve nullptr.
  */
  Aerolinea* VuelaFlight::buscaAerolinea(std::string icaoAerolinea) {
-    std::map<std::string, Aerolinea>::iterator Ite;
-    Ite = airlines.find(icaoAerolinea);
+    std::map<std::string, Aerolinea>::iterator Ite; Ite = airlines.find(icaoAerolinea);
 
     if (Ite != airlines.end()) {
         return &(Ite->second);
