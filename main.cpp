@@ -13,7 +13,6 @@ int main(int argc, const char * argv[]) {
     VuelaFlight vuelaFlight(archivo_aeropuertos, archivo_aerolineas, archivo_rutas, archivo_vuelos);
 
     int valor_menu = 0;
-
     while (valor_menu != 3) {
         valor_menu = 0;
         std::cout << "                              MENU                      " << std::endl;
@@ -21,7 +20,7 @@ int main(int argc, const char * argv[]) {
         std::cout << "2.- PROGRAMA DE PRUEBA II: probar la funcionalidad de la practica 4 en STL." << std::endl;
         std::cout << "3.- EXIT" << std::endl;
         while (valor_menu == 0 || valor_menu > 3 || valor_menu < 0) {
-            std::cout << "Inserte un numero: ";
+            std::cout << "Inserte un numero correcto: ";
             std::cin >> valor_menu;
         }
 
@@ -42,7 +41,7 @@ int main(int argc, const char * argv[]) {
                     std::cout << "  ** La aerolinea Ryanair no esta activa actualmente." << std::endl;
                 }
             } else {
-                std::cout << "La aerolinea con el ICAO (RYR) no existe entre todas las aerolineas." << std::endl;
+                std::cout << "La aerolinea que busca con el ICAO (RYR) no existe entre todas las aerolineas." << std::endl;
             }
 
             std::cout << "El tiempo que tarda en buscar la aerolinea Ryanair(RYR) y mostrar su informacion es: "
@@ -78,7 +77,7 @@ int main(int argc, const char * argv[]) {
 
             Aerolinea *Iberia = vuelaFlight.buscaAerolinea("IBE");
             if(Iberia == nullptr){
-                std::cout<<std::endl<<"La aerolinea que intenta buscar no ha sido encontrada correctamente."<<std::endl;
+                std::cout<<std::endl<< "La aerolinea que busca con el ICAO (IBE) no existe entre todas las aerolineas." << std::endl;
             }else{
                 std::deque<Aeropuerto*> aeropuertos_iberia = Iberia->getAeropuertosOrig();
 
@@ -97,7 +96,7 @@ int main(int argc, const char * argv[]) {
 
             Iberia = vuelaFlight.buscaAerolinea("IBE");
             if(Iberia == nullptr) {
-                std::cout<<std::endl<<"La aerolinea que intenta buscar no ha sido encontrada correctamente."<<std::endl;
+                std::cout<<std::endl<< "La aerolinea con el ICAO (IBE) no existe entre todas las aerolineas." << std::endl;
             }else{
                 std::list <Ruta*> todas_rutas_iberia_malaga = Iberia->getRutasAeropuerto("AGP");
                 std::vector <Ruta*> iberia_malaga;
@@ -115,9 +114,9 @@ int main(int argc, const char * argv[]) {
                 }
 
                 std::cout << std::endl
-                          << "El numero de rutas cuya aerolinea es Iberia y el aeropuerto de origen es Malaga es: "
+                          << "El numero de rutas cuya aerolinea es Iberia y el aeropuerto de origen Malaga es: "
                           << iberia_malaga.size() << std::endl;
-                for (int i = 0; i < iberia_malaga.size(); i++) {
+                for (int i = 0; i < iberia_malaga.size(); ++i) {
                     std::cout << i + 1 << ".- Arolinea: " << iberia_malaga[i]->getCompany()->getNombre() << ", Origen: "
                               << iberia_malaga[i]->getOrigin()->getNombre() << ", Destino: "
                               << iberia_malaga[i]->getDestination()->getNombre() << std::endl;
@@ -134,9 +133,9 @@ int main(int argc, const char * argv[]) {
 
             try {
                 std::list<Aerolinea*> aerolineas_spain = vuelaFlight.getAerolineasPais("Spain");
+                std::list<Aerolinea*>::iterator Ite; Ite = aerolineas_spain.begin();
                 if (aerolineas_spain.size() != 0) {
-                    std::list<Aerolinea*>::iterator Ite; Ite = aerolineas_spain.begin();
-                    std::cout << std::endl << "El numero de aerolineas que hay Spain es: " << aerolineas_spain.size()
+                    std::cout << std::endl << "El numero de aerolineas que hay en Espania es: " << aerolineas_spain.size()
                               << std::endl;
                     for (int i = 0; i < aerolineas_spain.size(); ++i) {
                         std::cout << i + 1 << ".- ICAO: " << (*Ite)->getIcao() << ", Nombre: "
@@ -144,7 +143,7 @@ int main(int argc, const char * argv[]) {
                                   << std::endl;
                     }
                 } else {
-                    std::cout << "El pais que ha buscado no contiene ninguna aerolinea." << std::endl;
+                    std::cout <<std::endl <<"El pais que ha buscado no contiene ninguna aerolinea." << std::endl;
                 }
             } catch (std::out_of_range &e) {
                 std::cout << std::endl << "ERROR: " << e.what() << std::endl;
@@ -179,7 +178,7 @@ int main(int argc, const char * argv[]) {
                 std::cout << "  ** IATA aeropuerto destino: " << vuelos_AEA5201[0]->getAeropuertoDest()->getIata()
                           << std::endl;
 
-                for (int i = 0; i < vuelos_AEA5201.size(); i++) {
+                for (int i = 0; i < vuelos_AEA5201.size(); ++i) {
                     std::string dato_vuelo = "";
 
                     for (int j = 0; j < (vuelos_AEA5201[i]->getDatoMeteo()).length() && vuelos_AEA5201[i]->getDatoMeteo()[j] != ' '; ++j) {
@@ -283,7 +282,7 @@ int main(int argc, const char * argv[]) {
             }
 
             std::cout << "Tiempo que tarda en mostrar la informacion de la aerolinea y el tiempo que hacia en los vuelos 'VLG2021' es: "
-                      << ((clock() - t_ini2) / (float) CLOCKS_PER_SEC) << " segs" << std::endl;
+                      << ((clock() - t_ini3) / (float) CLOCKS_PER_SEC) << " segs" << std::endl;
 
             //2.-Mostrar los modelos de aviones (únicos) utilizados en vuelos operados por Vueling, VLG, el 13/4/2018
             clock_t t_ini4 = clock();

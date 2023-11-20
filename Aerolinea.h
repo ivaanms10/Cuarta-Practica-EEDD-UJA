@@ -6,6 +6,7 @@
 #include <deque>
 #include <map>
 #include "Ruta.h"
+
 class Aerolinea {
 private:
     unsigned int _id;

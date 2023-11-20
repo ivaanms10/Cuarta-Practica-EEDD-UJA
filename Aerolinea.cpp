@@ -141,8 +141,8 @@ bool Aerolinea::operator==(const Aerolinea &orig) {
 //Práctica 3.
 
 /**
- * @brief Obtiene todos los aeropuertos de origen de una aerolinea.
- * @return Vector dinamico de punteros a los aeropuertos de origen de la aerolinea.
+ * @brief Método que obtiene todos los aeropuertos de origen de una aerolinea.
+ * @return Un vector std::deque de punteros a los aeropuertos de origen de la aerolinea.
  */
 std::deque<Aeropuerto*> Aerolinea::getAeropuertosOrig() {
     std::deque<Aeropuerto*> todos_aeropuertos;
@@ -168,7 +168,7 @@ std::deque<Aeropuerto*> Aerolinea::getAeropuertosOrig() {
 /**
  * @brief Método que obtiene una lista de rutas asociadas a un aeropuerto específico.
  * @param iataAirport El código IATA del aeropuerto para el que se desean obtener rutas.
- * @return Vector dinámico de punteros a las rutas asociadas al aeropuerto.
+ * @return Una lista std::list de punteros a Rutas asociadas al aeropuerto especificado.
  */
 std::list<Ruta*> Aerolinea::getRutasAeropuerto(std::string iataAirport) {
     std::list<Ruta*> rutas_aeropuerto;
@@ -231,7 +231,7 @@ Vuelo* Aerolinea::addVuelo(Vuelo &v) {
 /**
  * @brief Método que obtiene todos los vuelos con un numero de vuelo especifico.
  * @param fNmbr El número de el vuelo que se desea buscar.
- * @return Un vector de punteros con todos los vuelos que tienen el mismo número de vuelo.
+ * @return Un vector std::deque de punteros a los vuelos que tienen el flightNumber especificado.
  */
 std::deque<Vuelo*> Aerolinea::getVuelos(std::string fNmbr) {
     std::deque<Vuelo *> vuelos_fNmbr;
@@ -252,7 +252,7 @@ std::deque<Vuelo*> Aerolinea::getVuelos(std::string fNmbr) {
  * @brief Método que obtiene todos los vuelos programados dentro de un rango de fechas.
  * @param fIni Fecha de inicio de el rango horario.
  * @param fFin Fecha de fin de el rango horario.
- * @return Un vector de punteros con todos los vuelos programados dentro de el rango horario.
+ * @return Una lista std::list de punteros a los vuelos programados dentro de el rango horario.
  */
 std::list<Vuelo*> Aerolinea::getVuelos(Fecha fIni, Fecha fFin) {
     std::list<Vuelo*> vuelos_horario;

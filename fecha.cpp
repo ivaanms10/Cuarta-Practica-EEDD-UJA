@@ -78,7 +78,7 @@ bool Fecha::operator<(const Fecha &f)
 bool Fecha::operator<=(const Fecha &f)
 {
 
-    if(anio == f.anio && mes == f.mes && dia == f.dia && hora == f.hora && min == f.min){
+    if(anio == f.anio && mes == f.mes && dia == f.dia){
         return true;
     }
 

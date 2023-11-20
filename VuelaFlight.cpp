@@ -104,7 +104,7 @@ std::deque<Aeropuerto*> VuelaFlight::buscarAeropuertoPais(std::string pais) {
 /**
  * @brief Método para buscar una aerolinea por su codigo ICAO.
  * @param icaoAerolinea Código ICAO de la aerolinea que se desea buscar.
- * @return Una puntero a la aerolínea encontrada, si no se ha encontrado la aerolinea se devuelve nullptr.
+ * @return Un puntero a la aerolínea encontrada, si no se ha encontrado la aerolinea se devuelve nullptr.
  */
  Aerolinea* VuelaFlight::buscaAerolinea(std::string icaoAerolinea) {
     std::map<std::string, Aerolinea>::iterator Ite; Ite = airlines.find(icaoAerolinea);

@@ -103,7 +103,7 @@ int Ruta::getNumVuelos() {
 
 /**
  * @brief Método que devuelve todos los vuelos que hace esa ruta.
- * @return Una referencia a la lista de vuelos de la ruta.
+ * @return Una lista std::list de punteros a todos los vuelos de la ruta especifica.
  */
 std::list<Vuelo*> Ruta::getVuelos() {
     std::list<Vuelo*> vuelos_ruta;
