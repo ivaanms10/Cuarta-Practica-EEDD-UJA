@@ -4,7 +4,7 @@
 /**
  * @author Iván Morales Sánchez ims00051@red.ujaen.es
  */
-int main(int argc, const char * argv[]) {
+int main(int argc, const char *argv[]) {
     std::string archivo_aeropuertos = "../aeropuertos_v2.csv";
     std::string archivo_rutas = "../rutas_v1.csv";
     std::string archivo_aerolineas = "../aerolineas_v1.csv";
@@ -19,7 +19,7 @@ int main(int argc, const char * argv[]) {
         std::cout << "1.- PROGRAMA DE PRUEBA I: probar la funcionalidad de la practica 3 en STL." << std::endl;
         std::cout << "2.- PROGRAMA DE PRUEBA II: probar la funcionalidad de la practica 4 en STL." << std::endl;
         std::cout << "3.- EXIT" << std::endl;
-        while (valor_menu == 0 || valor_menu > 3 || valor_menu < 0) {
+        while (valor_menu > 3 || valor_menu <= 0) {
             std::cout << "Inserte un numero: "; std::cin >> valor_menu;
         }
 
