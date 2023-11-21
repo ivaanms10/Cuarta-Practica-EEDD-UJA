@@ -20,7 +20,7 @@ int main(int argc, const char * argv[]) {
         std::cout << "2.- PROGRAMA DE PRUEBA II: probar la funcionalidad de la practica 4 en STL." << std::endl;
         std::cout << "3.- EXIT" << std::endl;
         while (valor_menu == 0 || valor_menu > 3 || valor_menu < 0) {
-            std::cout << "Inserte un numero correcto: ";
+            std::cout << "Inserte un numero: ";
             std::cin >> valor_menu;
         }
 
